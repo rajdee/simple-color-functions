@@ -5,6 +5,7 @@ const isRgb = require('./utils/isRgb');
 const isHex = require('./utils/isHex');
 const rgb2hex = require('./utils/rgb2hex');
 const hex2rgb = require('./utils/hex2rgb');
+const rgb2luminance = require('./utils/rgb2luminance');
 
 function string2rgb(color) {
     const rgb = color.replace(/\s+/g,'').split(',').map(i => parseInt(i, 10));
@@ -15,13 +16,23 @@ function string2rgb(color) {
     };
 }
 
+function parseColor(color) {
+    if (!color) {
+        return {
+            r: null,
+            g: null,
+            b: null
+        };
+    } else if (isHex(color)) {
+        return hex2rgb(color);
+    } else if (isRgb(color)) {
+        return string2rgb(color);
+    }
+}
+
 class Colors {
     constructor(color) {
-        if (isHex(color)) {
-            this._rgb = hex2rgb(color);
-        } else if (isRgb(color)) {
-            this._rgb = string2rgb(color);
-        }
+        this._rgb = parseColor(color);
     }
 
     rgb() {
@@ -60,6 +71,20 @@ class Colors {
     brightness() {
         const { r, g, b } = this._rgb;
         return Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
+    }
+
+    luminance(rgb) {
+        return rgb2luminance(rgb || this._rgb);
+    }
+
+    contrast(c1, c2) {
+        // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+        const l1 = this.luminance(parseColor(c1));
+        const l2 = this.luminance(parseColor(c2));
+        // contrast 1 - 21
+        return l1 > l2
+            ? (l1 + 0.05) / (l2 + 0.05)
+            : (l2 + 0.05) / (l1 + 0.05);
     }
 }
 

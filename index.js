@@ -149,6 +149,24 @@ var hex2rgb = function hex2rgb(hex) {
     };
 };
 
+// https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+var rgb2luminance = function (ref) {
+        var r = ref.r;
+        var g = ref.g;
+        var b = ref.b;
+
+        return 0.2126 * luminance_c(r) + 0.7152 * luminance_c(g) + 0.0722 * luminance_c(b);
+};
+
+var luminance_c = function (c) {
+    c = c / 255;
+    return c <= 0.03928
+        ? c / 12.92
+        : Math.pow((c + 0.055) / 1.055, 2.4);
+};
+
+var rgb2luminance_1 = rgb2luminance;
+
 function string2rgb(color) {
     var rgb = color.replace(/\s+/g,'').split(',').map(function (i) { return parseInt(i, 10); });
     return {
@@ -158,12 +176,21 @@ function string2rgb(color) {
     };
 }
 
-var Colors = function Colors(color) {
-    if (isHex(color)) {
-        this._rgb = hex2rgb(color);
+function parseColor(color) {
+    if (!color) {
+        return {
+            r: null,
+            g: null,
+            b: null
+        };
+    } else if (isHex(color)) {
+        return hex2rgb(color);
     } else if (isRgb(color)) {
-        this._rgb = string2rgb(color);
-    }
+        return string2rgb(color);
+    }}
+
+var Colors = function Colors(color) {
+    this._rgb = parseColor(color);
 };
 
 Colors.prototype.rgb = function rgb () {
@@ -218,6 +245,20 @@ Colors.prototype.brightness = function brightness () {
         var g = ref.g;
         var b = ref.b;
     return Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
+};
+
+Colors.prototype.luminance = function luminance (rgb) {
+    return rgb2luminance_1(rgb || this._rgb);
+};
+
+Colors.prototype.contrast = function contrast (c1, c2) {
+    // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+    var l1 = this.luminance(parseColor(c1));
+    var l2 = this.luminance(parseColor(c2));
+    // contrast 1 - 21
+    return l1 > l2
+        ? (l1 + 0.05) / (l2 + 0.05)
+        : (l2 + 0.05) / (l1 + 0.05);
 };
 
 var src = function colors(color) {
