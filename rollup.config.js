@@ -22,7 +22,8 @@ module.exports = {
     plugins: [
         commonjs(),
         buble({
-            transforms: { dangerousForOf: true }
+            transforms: { dangerousForOf: true },
+            objectAssign: 'Object.assign'
         }),
         production && terser()
     ]

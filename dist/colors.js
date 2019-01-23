@@ -49,7 +49,7 @@
     var xyz_rgb = function (c) {
         var x = c > 0.00304
             ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055
-            : r * 12.92;
+            : c * 12.92;
         return Math.round(255 * Math.min(Math.max(0, x), 1));
     };
 
@@ -108,6 +108,9 @@
     var rgb2lab_1 = rgb2lab;
 
     var isRgb = function isRgb(color) {
+        if (!color) {
+            return false;
+        }
         var rgb = color.replace(/\s+/g,'').split(',');
 
         return rgb.length === 3 && rgb.every(function (num) {
@@ -124,7 +127,8 @@
 
     var rgb2hex = function rgb2hex(rgb) {
         return Object.keys(rgb).reduce(function (acc, key) {
-            acc += rgb[key].toString(16);
+            var hex = rgb[key].toString(16);
+            acc += hex.length > 1 ? hex : ("0" + hex);
             return acc;
         }, '#');
     };
@@ -185,13 +189,15 @@
             return {
                 r: null,
                 g: null,
-                b: null
+                b: null,
+                a: 1
             };
         } else if (isHex(color)) {
             return hex2rgb(color);
         } else if (isRgb(color)) {
             return string2rgb(color);
-        }}
+        }
+    }
 
     var Colors = function Colors(color) {
         this._rgb = parseColor(color);
@@ -206,20 +212,23 @@
             var r = ref.r;
             var g = ref.g;
             var b = ref.b;
-        return ("rgb(" + r + ", " + g + ", " + b + ")");
+            var a = ref.a;
+        return a === 1 || !a
+            ? ("rgb(" + r + "," + g + "," + b + ")")
+            : a > 0 && a < 1 && ("rgba(" + r + "," + g + "," + b + "," + a + ")");
     };
 
     Colors.prototype.hex = function hex () {
         return rgb2hex(this._rgb);
     };
 
-    Colors.prototype.aplha = function aplha (opacity) {
-        var ref = this._rgb;
-            var r = ref.r;
-            var g = ref.g;
-            var b = ref.b;
-
-        return ("rgba(" + r + ", " + g + ", " + b + ", " + opacity + ")");
+    Colors.prototype.alpha = function alpha (opacity) {
+        opacity = parseFloat(opacity);
+        this._rgb = Object.assign({}, this._rgb,
+            {a: opacity >= 0 && opacity <= 1
+                ? opacity
+                : 1});
+        return this;
     };
 
     Colors.prototype.darken = function darken (amount) {
@@ -263,6 +272,10 @@
         return l1 > l2
             ? (l1 + 0.05) / (l2 + 0.05)
             : (l2 + 0.05) / (l1 + 0.05);
+    };
+
+    Colors.prototype.toString = function toString () {
+        return this.hex();
     };
 
     var src = function colors(color) {

@@ -1,4 +1,4 @@
-const rgb2hex = require('../utils/rgb2hex');
+const rgb2hex = require('../src/utils/rgb2hex');
 
 it('should return a string with hex color from rgb object', () => {
     const actual = rgb2hex({

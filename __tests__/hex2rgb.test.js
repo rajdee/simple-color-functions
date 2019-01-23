@@ -1,4 +1,4 @@
-const hex2rgb = require('../utils/hex2rgb');
+const hex2rgb = require('../src/utils/hex2rgb');
 
 it('should return an object with converted values from hex to rgb', () => {
     const actual = hex2rgb('#aabbcc');

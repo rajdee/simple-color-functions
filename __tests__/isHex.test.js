@@ -1,4 +1,4 @@
-const isHex = require('../utils/isHex');
+const isHex = require('../src/utils/isHex');
 
 it('should return true for hex value', () => {
     const actual = isHex('#aabbcc');

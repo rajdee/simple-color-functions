@@ -1,4 +1,7 @@
 module.exports = function isRgb(color) {
+    if (!color) {
+        return false;
+    }
     const rgb = color.replace(/\s+/g,'').split(',');
 
     return rgb.length === 3 && rgb.every(num => {

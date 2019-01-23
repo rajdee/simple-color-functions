@@ -1,2 +1,4 @@
 node_modules
-
+dist
+index.js
+index.min.js

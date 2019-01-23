@@ -21,7 +21,8 @@ function parseColor(color) {
         return {
             r: null,
             g: null,
-            b: null
+            b: null,
+            a: 1
         };
     } else if (isHex(color)) {
         return hex2rgb(color);
@@ -40,18 +41,25 @@ class Colors {
     }
 
     css() {
-        const { r, g, b } = this._rgb;
-        return `rgb(${r}, ${g}, ${b})`;
+        const { r, g, b, a } = this._rgb;
+        return a === 1 || !a
+            ? `rgb(${r},${g},${b})`
+            : a > 0 && a < 1 && `rgba(${r},${g},${b},${a})`;
     }
 
     hex() {
         return rgb2hex(this._rgb);
     }
 
-    aplha(opacity) {
-        const { r, g, b } = this._rgb;
-
-        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    alpha(opacity) {
+        opacity = parseFloat(opacity);
+        this._rgb = {
+            ...this._rgb,
+            a: opacity >= 0 && opacity <= 1
+                ? opacity
+                : 1
+        };
+        return this;
     }
 
     darken(amount = 1) {
@@ -85,6 +93,10 @@ class Colors {
         return l1 > l2
             ? (l1 + 0.05) / (l2 + 0.05)
             : (l2 + 0.05) / (l1 + 0.05);
+    }
+
+    toString() {
+        return this.hex();
     }
 }
 

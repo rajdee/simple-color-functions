@@ -1,4 +1,4 @@
-const convertFromShortNotation = require('../utils/convertFromShortNotation');
+const convertFromShortNotation = require('../src/utils/convertFromShortNotation');
 
 it('should return an original color if length isn`t equal 3', () => {
     const actual = convertFromShortNotation('#aabbcc');
