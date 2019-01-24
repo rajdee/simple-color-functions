@@ -2,7 +2,7 @@ language: node_js
 cache: yarn
 node_js:
   - node
-  - "6"
-  - "4"
+  - "10"
+  - "8"
 install:
   - YARN_IGNORE_ENGINES=true yarn
