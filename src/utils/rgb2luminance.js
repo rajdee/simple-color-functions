@@ -1,6 +1,14 @@
 // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-const rgb2luminance = ({ r , g, b }) =>
-    0.2126 * luminance_c(r) + 0.7152 * luminance_c(g) + 0.0722 * luminance_c(b);
+const rgb2luminance = ({ r , g, b }) => {
+    const R = luminance_c(r);
+    const G = luminance_c(g);
+    const B = luminance_c(b);
+    return Math.sqrt(
+        0.299 * R * R +
+        0.587 * G * G +
+        0.114 * B * B
+    );
+};
 
 const luminance_c = c => {
     c = c / 255;

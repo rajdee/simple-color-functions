@@ -6,30 +6,8 @@ const isHex = require('./utils/isHex');
 const rgb2hex = require('./utils/rgb2hex');
 const hex2rgb = require('./utils/hex2rgb');
 const rgb2luminance = require('./utils/rgb2luminance');
-
-function string2rgb(color) {
-    const rgb = color.replace(/\s+/g,'').split(',').map(i => parseInt(i, 10));
-    return {
-        r: rgb[0],
-        g: rgb[1],
-        b: rgb[2]
-    };
-}
-
-function parseColor(color) {
-    if (!color) {
-        return {
-            r: null,
-            g: null,
-            b: null,
-            a: 1
-        };
-    } else if (isHex(color)) {
-        return hex2rgb(color);
-    } else if (isRgb(color)) {
-        return string2rgb(color);
-    }
-}
+const parseColor = require('./utils/parseColor');
+const brightness = require('./utils/brightness');
 
 class Colors {
     constructor(color) {
@@ -76,9 +54,9 @@ class Colors {
         return this.darken(-amount);
     }
 
-    brightness() {
-        const { r, g, b } = this._rgb;
-        return Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
+    brightness(amount) {
+        this._rgb = brightness(this._rgb, amount);
+        return this;
     }
 
     luminance(rgb) {

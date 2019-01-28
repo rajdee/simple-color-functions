@@ -31,3 +31,8 @@ colors('#23bc98').css();  // rgb(35,188,152)
 colors('#23bc98').alpha(.5).css();  // rgba(35,188,152.5)
 ```
 
+```javascript
+colors('#23bc98').brightness('-20%').hex();  // #009675
+colors('#23bc98').brightness(-0.2).hex();  // #009675
+```
+

@@ -9,6 +9,7 @@
         Kn: 18,
 
         // D65 standard referent
+        // https://en.wikipedia.org/wiki/CIELAB_color_space
         Xn: 0.950470,
         Yn: 1,
         Zn: 1.088830,
@@ -17,6 +18,13 @@
         t1: 0.206896552,  // 6 / 29
         t2: 0.12841855,   // 3 * t1 * t1
         t3: 0.008856452,  // t1 * t1 * t1
+    };
+
+    var limit = function (c, min, max) {
+        if ( min === void 0 ) min = 0;
+        if ( max === void 0 ) max = 255;
+
+        return Math.min(Math.max(min, c), max);
     };
 
     /*
@@ -50,7 +58,7 @@
         var x = c > 0.00304
             ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055
             : c * 12.92;
-        return Math.round(255 * Math.min(Math.max(0, x), 1));
+        return Math.round(255 * limit(x, 0, 1));
     };
 
     var lab_xyz = function (t) {
@@ -62,6 +70,7 @@
     var lab2rgb_1 = lab2rgb;
 
     var rgb2lab = function (rgb) {
+        // https://en.wikipedia.org/wiki/CIELAB_color_space
         var r = rgb.r;
         var g = rgb.g;
         var b = rgb.b;
@@ -159,11 +168,18 @@
 
     // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
     var rgb2luminance = function (ref) {
-            var r = ref.r;
-            var g = ref.g;
-            var b = ref.b;
+        var r = ref.r;
+        var g = ref.g;
+        var b = ref.b;
 
-            return 0.2126 * luminance_c(r) + 0.7152 * luminance_c(g) + 0.0722 * luminance_c(b);
+        var R = luminance_c(r);
+        var G = luminance_c(g);
+        var B = luminance_c(b);
+        return Math.sqrt(
+            0.299 * R * R +
+            0.587 * G * G +
+            0.114 * B * B
+        );
     };
 
     var luminance_c = function (c) {
@@ -184,7 +200,7 @@
         };
     }
 
-    function parseColor(color) {
+    var parseColor = function parseColor(color) {
         if (!color) {
             return {
                 r: null,
@@ -197,7 +213,44 @@
         } else if (isRgb(color)) {
             return string2rgb(color);
         }
-    }
+    };
+
+    var convertPercentage = function convertPercentage(amount) {
+        if (typeof(amount) === 'number') {
+            // return result if -1 >= amount <= 1
+            if (Math.abs(amount) <= 1) {
+                return amount;
+            }
+            // return normalized result if -100 >= amount <= 100
+            if (Math.abs(amount) <= 100) {
+                return amount / 100;
+            }
+        }
+
+        if (typeof(amount) === 'string' && amount[amount.length - 1] === '%') {
+            return parseFloat(amount.replace('%', '') / 100);
+        }
+
+        return null;
+    };
+
+    var brightness = function brightness(rgb, amount) {
+        var ref = rgb2lab_1(rgb);
+        var l = ref.l;
+        var a = ref.a;
+        var b = ref.b;
+
+        var modifiedL = limit(
+            l * (1 + convertPercentage(amount)),
+            0,
+            100
+        );
+        return lab2rgb_1({
+            l: modifiedL,
+            a: a,
+            b: b
+        });
+    };
 
     var Colors = function Colors(color) {
         this._rgb = parseColor(color);
@@ -252,12 +305,9 @@
         return this.darken(-amount);
     };
 
-    Colors.prototype.brightness = function brightness () {
-        var ref = this._rgb;
-            var r = ref.r;
-            var g = ref.g;
-            var b = ref.b;
-        return Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
+    Colors.prototype.brightness = function brightness$1 (amount) {
+        this._rgb = brightness(this._rgb, amount);
+        return this;
     };
 
     Colors.prototype.luminance = function luminance (rgb) {

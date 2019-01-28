@@ -3,6 +3,7 @@ module.exports = {
     Kn: 18,
 
     // D65 standard referent
+    // https://en.wikipedia.org/wiki/CIELAB_color_space
     Xn: 0.950470,
     Yn: 1,
     Zn: 1.088830,

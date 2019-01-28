@@ -1,6 +1,7 @@
 const LAB_CONSTANTS = require('./constants');
 
 const rgb2lab = rgb => {
+    // https://en.wikipedia.org/wiki/CIELAB_color_space
     const { r, g, b } = rgb;
     const { x, y, z } = rgb2xyz(r, g, b);
     const l = 116 * y - 16;

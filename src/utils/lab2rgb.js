@@ -1,4 +1,5 @@
 const LAB_CONSTANTS = require('./constants');
+const limit = require('./limit');
 
 /*
  * L* [0..100]
@@ -27,7 +28,7 @@ const xyz_rgb = c => {
     const x = c > 0.00304
         ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055
         : c * 12.92;
-    return Math.round(255 * Math.min(Math.max(0, x), 1));
+    return Math.round(255 * limit(x, 0, 1));
 };
 
 const lab_xyz = t => {

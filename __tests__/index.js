@@ -25,3 +25,19 @@ it('should return converted color from hex to rgb', () => {
     expect(actual).toEqual('rgb(35,188,152)');
 });
 
+it('should return contrast criteria of two colors', () => {
+    const actual = colors().contrast('#fff', '#23bc98');
+    expect(actual).toEqual(2.3348071108457673);
+});
+
+
+it('should return brighten color by brightness', () => {
+    const actual = colors('#23bc98').brightness('20%').hex();
+    expect(actual).toEqual('#58e3bd');
+});
+
+it('should return darken color by brightness', () => {
+    const actual = colors('#23bc98').brightness('-20%').hex();
+    expect(actual).toEqual('#009675');
+});
+
