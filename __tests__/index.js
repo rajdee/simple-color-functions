@@ -31,13 +31,23 @@ it('should return contrast criteria of two colors', () => {
 });
 
 
-it('should return brighten color by brightness', () => {
+it('should return brighten color by brightness in percent', () => {
     const actual = colors('#23bc98').brightness('20%').hex();
     expect(actual).toEqual('#58e3bd');
 });
 
-it('should return darken color by brightness', () => {
+it('should return darken color by brightness in percent', () => {
     const actual = colors('#23bc98').brightness('-20%').hex();
+    expect(actual).toEqual('#009675');
+});
+
+it('should return brighten color by brightness in decimals', () => {
+    const actual = colors('#23bc98').brightness(0.2).hex();
+    expect(actual).toEqual('#58e3bd');
+});
+
+it('should return darken color by brightness in decimals', () => {
+    const actual = colors('#23bc98').brightness(-0.2).hex();
     expect(actual).toEqual('#009675');
 });
 

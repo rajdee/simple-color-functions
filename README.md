@@ -21,6 +21,7 @@ Several examples of color manipulation
 
 ```javascript
 colors('#23bc98').brighten(1.2).hex();  // #71fad3
+colors('#23bc98').darken(0.5).hex();    // #00a381
 ```
 
 ```javascript
@@ -36,3 +37,7 @@ colors('#23bc98').brightness('-20%').hex();  // #009675
 colors('#23bc98').brightness(-0.2).hex();  // #009675
 ```
 
+```javascript
+colors().contrast('#fff', '#23bc98');  // 2.3348071108457673
+colors('#23bc98').luminance();  // 0.39971595089054046
+```
