@@ -1,4 +1,4 @@
-module.exports = function convertPercentage(amount) {
+export const convertPercentage = (amount: number | string): number => {
     if (typeof(amount) === 'number') {
         // return result if -1 >= amount <= 1
         if (Math.abs(amount) <= 1) {
@@ -11,8 +11,8 @@ module.exports = function convertPercentage(amount) {
     }
 
     if (typeof(amount) === 'string' && amount[amount.length - 1] === '%') {
-        return parseFloat(amount.replace('%', '') / 100);
+        return parseFloat(amount.replace('%', '')) / 100;
     }
 
-    return null;
+    return 0;
 };

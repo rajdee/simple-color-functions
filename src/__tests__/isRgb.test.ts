@@ -1,4 +1,4 @@
-const isRgb = require('../src/utils/isRgb');
+import { isRgb } from '../utils/isRgb';
 
 it('should return true for rgb values', () => {
     const actual = isRgb('255, 192, 2');

@@ -1,4 +1,4 @@
-const isShortNotation = require('../src/utils/isShortNotation');
+import { isShortNotation } from '../utils/isShortNotation';
 
 it('should return true if color short', () => {
     const actual = isShortNotation('#aaa');

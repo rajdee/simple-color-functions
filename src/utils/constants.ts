@@ -1,4 +1,4 @@
-module.exports = {
+export const CONSTANTS = {
     // Corresponds roughly to RGB brighter/darker
     Kn: 18,
 
@@ -12,5 +12,5 @@ module.exports = {
     t1: 0.206896552,  // 6 / 29
     t2: 0.12841855,   // 3 * t1 * t1
     t3: 0.008856452,  // t1 * t1 * t1
-};
+}
 

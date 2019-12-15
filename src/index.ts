@@ -1,16 +1,15 @@
-const c = require('./utils/constants');
-const lab2rgb = require('./utils/lab2rgb');
-const rgb2lab = require('./utils/rgb2lab');
-const isRgb = require('./utils/isRgb');
-const isHex = require('./utils/isHex');
-const rgb2hex = require('./utils/rgb2hex');
-const hex2rgb = require('./utils/hex2rgb');
-const rgb2luminance = require('./utils/rgb2luminance');
-const parseColor = require('./utils/parseColor');
-const brightness = require('./utils/brightness');
+import { IRgb } from './types';
+import { lab2rgb } from './utils/lab2rgb';
+import { rgb2lab } from './utils/rgb2lab';
+import { rgb2hex } from './utils/rgb2hex';
+import { rgb2luminance } from './utils/rgb2luminance';
+import { parseColor } from './utils/parseColor';
+import { brightness } from './utils/brightness';
+import { CONSTANTS } from './utils/constants';
 
 class Colors {
-    constructor(color) {
+    _rgb: IRgb;
+    constructor(color: string) {
         this._rgb = parseColor(color);
     }
 
@@ -29,8 +28,7 @@ class Colors {
         return rgb2hex(this._rgb);
     }
 
-    alpha(opacity) {
-        opacity = parseFloat(opacity);
+    alpha(opacity: number) {
         this._rgb = {
             ...this._rgb,
             a: opacity >= 0 && opacity <= 1
@@ -40,30 +38,30 @@ class Colors {
         return this;
     }
 
-    darken(amount = 1) {
-        const { l, a, b } = rgb2lab(this._rgb);
+    darken(amount: number = 1) {
+        const { L, a, b } = rgb2lab(this._rgb);
         this._rgb = lab2rgb({
-            l: l - c.Kn * amount,
+            L: L - CONSTANTS.Kn * amount,
             a,
             b
         });
         return this;
     }
 
-    brighten(amount = 1) {
+    brighten(amount: number = 1) {
         return this.darken(-amount);
     }
 
-    brightness(amount) {
+    brightness(amount: number) {
         this._rgb = brightness(this._rgb, amount);
         return this;
     }
 
-    luminance(rgb) {
+    luminance(rgb: IRgb) {
         return rgb2luminance(rgb || this._rgb);
     }
 
-    contrast(c1, c2) {
+    contrast(c1: string, c2: string) {
         // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
         const l1 = this.luminance(parseColor(c1));
         const l2 = this.luminance(parseColor(c2));
@@ -78,6 +76,6 @@ class Colors {
     }
 }
 
-module.exports = function colors(color) {
+export default function colors (color: string) {
     return new Colors(color);
-};
+}

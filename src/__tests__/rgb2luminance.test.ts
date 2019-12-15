@@ -1,4 +1,4 @@
-const rgb2luminance = require('../src/utils/rgb2luminance');
+import { rgb2luminance } from '../utils/rgb2luminance';
 
 it('should return a luminance of passed color', () => {
     const actual = rgb2luminance({

@@ -1,4 +1,4 @@
-const colors = require('../index.js');
+const colors = require('../../index.min.js');
 
 it('should return darken color with default amount', () => {
     const actual = colors('#23bc98').darken().hex();
@@ -50,4 +50,15 @@ it('should return darken color by brightness in decimals', () => {
     const actual = colors('#23bc98').brightness(-0.2).hex();
     expect(actual).toEqual('#009675');
 });
+
+it('should return converted color with alpha chanel', () => {
+    const actual = colors('#23bc98').alpha(.5).rgb();
+    expect(actual).toEqual({
+        r: 35,
+        g: 188,
+        b: 152,
+        a: 0.5
+    });
+});
+
 

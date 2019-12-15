@@ -1,4 +1,4 @@
-module.exports = function isRgb(color) {
+export const isRgb = (color: string): boolean => {
     if (!color) {
         return false;
     }

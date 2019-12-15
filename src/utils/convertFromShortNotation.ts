@@ -1,4 +1,4 @@
-module.exports = function convertShortNotation(color) {
+export const convertFromShortNotation = (color: string): string => {
     if (color.length !== 4) {
         return color;
     }
