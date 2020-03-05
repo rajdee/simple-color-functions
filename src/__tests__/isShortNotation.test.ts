@@ -1,4 +1,4 @@
-import { isShortNotation } from '../utils/isShortNotation';
+import { isShortNotation } from '../lib/isShortNotation';
 
 it('should return true if color short', () => {
     const actual = isShortNotation('#aaa');

@@ -1,4 +1,4 @@
-import { rgb2hex }  from '../utils/rgb2hex';
+import { rgb2hex }  from '../lib/rgb2hex';
 
 it('should return a string with hex color from rgb object', () => {
     const actual = rgb2hex({

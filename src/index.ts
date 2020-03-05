@@ -1,11 +1,11 @@
 import { IRgb } from './types';
-import { lab2rgb } from './utils/lab2rgb';
-import { rgb2lab } from './utils/rgb2lab';
-import { rgb2hex } from './utils/rgb2hex';
-import { rgb2luminance } from './utils/rgb2luminance';
-import { parseColor } from './utils/parseColor';
-import { brightness } from './utils/brightness';
-import { CONSTANTS } from './utils/constants';
+import { lab2rgb } from './lib/lab2rgb';
+import { rgb2lab } from './lib/rgb2lab';
+import { rgb2hex } from './lib/rgb2hex';
+import { rgb2luminance } from './lib/rgb2luminance';
+import { parseColor } from './lib/parseColor';
+import { brightness } from './lib/brightness';
+import { CONSTANTS } from './lib/constants';
 
 class Colors {
     _rgb: IRgb;
@@ -61,10 +61,10 @@ class Colors {
         return rgb2luminance(rgb || this._rgb);
     }
 
-    contrast(c1: string, c2: string) {
+    contrast(color2: string) {
         // https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-        const l1 = this.luminance(parseColor(c1));
-        const l2 = this.luminance(parseColor(c2));
+        const l1 = rgb2luminance(this._rgb);
+        const l2 = rgb2luminance(parseColor(color2));
         // contrast 1 - 21
         return l1 > l2
             ? (l1 + 0.05) / (l2 + 0.05)
@@ -76,6 +76,6 @@ class Colors {
     }
 }
 
-export default function colors (color: string) {
+export default function colors(color: string) {
     return new Colors(color);
 }

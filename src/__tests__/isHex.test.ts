@@ -1,4 +1,4 @@
-import { isHex } from '../utils/isHex';
+import { isHex } from '../lib/isHex';
 
 it('should return true for hex value', () => {
     const actual = isHex('#aabbcc');

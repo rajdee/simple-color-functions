@@ -1,4 +1,4 @@
-const colors = require('../../index.min.js');
+const colors = require('../../dist/index.min.js');
 
 it('should return darken color with default amount', () => {
     const actual = colors('#23bc98').darken().hex();
@@ -26,7 +26,7 @@ it('should return converted color from hex to rgb', () => {
 });
 
 it('should return contrast criteria of two colors', () => {
-    const actual = colors().contrast('#fff', '#23bc98');
+    const actual = colors('#fff').contrast('#23bc98');
     expect(actual).toEqual(2.3348071108457673);
 });
 

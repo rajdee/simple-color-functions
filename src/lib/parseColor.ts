@@ -15,13 +15,9 @@ const string2rgb = (color: string): IRgb => {
 
 export const parseColor = (color: string): IRgb => {
     if (!color) {
-        return {
-            r: null,
-            g: null,
-            b: null,
-            a: 1
-        };
+        throw 'Color not passed';
     }
+
     if (isHex(color)) {
         return hex2rgb(color);
     }
@@ -31,11 +27,9 @@ export const parseColor = (color: string): IRgb => {
     }
 
     return {
-        r: null,
-        g: null,
-        b: null,
+        r: -1,
+        g: -1,
+        b: -1,
         a: 1
     };
-
-
 };

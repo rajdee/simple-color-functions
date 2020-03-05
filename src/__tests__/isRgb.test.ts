@@ -1,4 +1,4 @@
-import { isRgb } from '../utils/isRgb';
+import { isRgb } from '../lib/isRgb';
 
 it('should return true for rgb values', () => {
     const actual = isRgb('255, 192, 2');

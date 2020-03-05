@@ -1,4 +1,4 @@
-import { convertPercentage } from '../utils/convertPercentage';
+import { convertPercentage } from '../lib/convertPercentage';
 
 it('should return an original result if passed amount between -1 and 1', () => {
     const actual = convertPercentage(-0.5);

@@ -1,4 +1,4 @@
-import { hex2rgb } from '../utils/hex2rgb';
+import { hex2rgb } from '../lib/hex2rgb';
 
 it('should return an object with converted values from hex to rgb', () => {
     const actual = hex2rgb('#aabbcc');

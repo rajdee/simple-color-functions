@@ -1,4 +1,4 @@
-import { limit } from '../utils/limit';
+import { limit } from '../lib/limit';
 
 it('should return passed number with max limit', () => {
     const actual = limit(278, 1, 255);
