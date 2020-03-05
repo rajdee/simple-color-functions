@@ -1,30 +1,42 @@
-import buble from 'rollup-plugin-buble';
 import { terser } from 'rollup-plugin-terser';
-import commonjs from 'rollup-plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import buble from '@rollup/plugin-buble';
 
 const production = !process.env.ROLLUP_WATCH && !process.env.DEV;
 /** globals process, __dirname **/
 
+const type = production ? '.min' : '';
+
 module.exports = {
-    input: 'src/index.js',
+    input: 'src/index.ts',
+
     output: [
         {
-            file: `dist/colors${production ? '.min' : ''}.js`,
+            file: `dist/index.umd${type}.js`,
             format: 'umd',
-            name: 'colors',
+            name: 'index'
         },
         {
-            file: `index${production ? '.min' : ''}.js`,
+            file: `dist/index${type}.js`,
             format: 'cjs',
+            name: 'index'
+        },
+        {
+            file: `dist/index.esm${type}.js`,
+            format: 'esm',
             name: 'index',
-        }
+        },
     ],
     plugins: [
-        commonjs(),
+        typescript(),
         buble({
-            transforms: { dangerousForOf: true },
-            objectAssign: 'Object.assign'
+            include: 'dist/*.esm.js'
         }),
-        production && terser()
+        production && terser({
+            output: {
+                comments: false
+            },
+            compress: true,
+        })
     ]
 };

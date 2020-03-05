@@ -1,6 +1,6 @@
 {
   "name": "simple-color-functions",
-  "version": "0.3.2",
+  "version": "0.5.0",
   "description": "A set of simple color functions.",
   "keywords": [
     "contrast",
@@ -11,37 +11,40 @@
   ],
   "author": "Ruslan Abdullaev <skarlatin@mail.ru>",
   "license": "MIT",
-  "main": "index.min.js",
+  "main": "dist/index.min.js",
+  "module": "dist/index.esm.min.js",
+  "browser": "dist/index.umd.min.js",
   "repository": "rajdee/simple-color-functions",
   "bugs": {
     "url": "https://github.com/rajdee/simple-color-functions/issues"
   },
   "homepage": "https://github.com/rajdee/simple-color-functions",
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "rollup": "^1.1.2",
-    "rollup-plugin-buble": "^0.19.6"
+    "@rollup/plugin-buble": "^0.21.1",
+    "@rollup/plugin-typescript": "^3.0.0",
+    "@types/jest": "^25.1.3",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.1",
+    "jest": "^25.1.0",
+    "rollup": "^1.32.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "ts-jest": "^25.2.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "prepublish": "npm run build && npm test",
-    "build": "rollup -c && DEV=1 rollup -c ",
-    "test": "jest && eslint *.js",
+    "build-dev": "DEV=1 rollup -c",
+    "build": "rollup -c",
+    "test": "jest && eslint ./src/*.ts",
     "test:watch": "./node_modules/jest-cli/bin/jest.js --watch"
   },
   "eslintConfig": {
+    "root": true,
     "env": {
       "jest": true
     }
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "dependencies": {
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.7.1",
-    "eslint-plugin-jest": "^23.0.5",
-    "jest": "^24.9.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-terser": "^5.1.2"
   }
 }

@@ -38,6 +38,6 @@ colors('#23bc98').brightness(-0.2).hex();  // #009675
 ```
 
 ```javascript
-colors().contrast('#fff', '#23bc98');  // 2.3348071108457673
+colors('#fff').contrast('#23bc98');  // 2.3348071108457673
 colors('#23bc98').luminance();  // 0.39971595089054046
 ```
