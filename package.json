@@ -1,6 +1,6 @@
 {
   "name": "simple-color-functions",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A set of simple color functions.",
   "keywords": [
     "contrast",
@@ -35,7 +35,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "prepublish": "npm run build && npm test",
+    "prepare": "npm run build && npm test",
     "build-dev": "DEV=1 rollup -c",
     "build": "rollup -c",
     "test": "jest && eslint ./src/*.ts",

@@ -15,4 +15,12 @@ it('should return a parced amount from string', () => {
     expect(actual).toEqual(-0.89);
 });
 
+it('should return an original result if passed string amount between -1 and 1', () => {
+    const actual = convertPercentage('-0.5');
+    expect(actual).toEqual(-0.5);
+});
 
+it('should return an original result if passed string amount between -1 and 1', () => {
+    const actual = convertPercentage('.5');
+    expect(actual).toEqual(0.5);
+});
